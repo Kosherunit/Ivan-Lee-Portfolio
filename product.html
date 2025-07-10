@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Print Store | KOSHERUNIT</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="store-page">
+    <div class="loading-screen">
+        <div class="loader">
+            <div class="loader-text">LOADING PREMIUM STORE</div>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <div class="theme-toggle">
+        <div class="toggle-container">
+            <div class="toggle-button" id="themeToggle">
+                <div class="sun-moon">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">KOSHERUNIT©</a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-item">Home</a></li>
+                <li><a href="photography.html" class="nav-item">Photography</a></li>
+                <li><a href="commercial.html" class="nav-item">Commercial</a></li>
+                <li><a href="corporate.html" class="nav-item">Corporate</a></li>
+                <li><a href="social-media.html" class="nav-item">Social Media</a></li>
+                <li><a href="product.html" class="nav-item active">Print Store</a></li>
+                <li><a href="about.html" class="nav-item">About</a></li>
+                <li><a href="collaborations.html" class="nav-item">KOL Collaborations</a></li>
+            </ul>
+        </nav>
+        <div class="floating-cart" id="cartToggle">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+            <div class="cart-ripple"></div>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="fullscreen-menu">
+        <div class="menu-header">
+            <div class="menu-logo">
+                <a href="index.html">KOSHERUNIT©</a>
+            </div>
+            <div class="menu-close close-btn">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="menu-content">
+            <ul class="menu-items">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="photography.html">Photography</a></li>
+                <li><a href="commercial.html">Commercial</a></li>
+                <li><a href="corporate.html">Corporate</a></li>
+                <li><a href="social-media.html">Social Media</a></li>
+                <li><a href="product.html">Print Store</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="collaborations.html">KOL Collaborations</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="back-navigation">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Portfolio
+        </a>
+    </div>
+
+    <main class="store-main">
+        <div class="store-hero">
+            <div class="hero-content">
+                <h1 class="store-title">
+                    <span class="title-main">Premium Photography Prints</span>
+                    <span class="title-sub">Museum-Quality • Limited Edition • Worldwide Shipping</span>
+                </h1>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Exclusive Prints</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4K+</span>
+                        <span class="stat-label">Happy Customers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5⭐</span>
+                        <span class="stat-label">Premium Quality</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-elements">
+                    <div class="float-element" style="--delay: 0s"></div>
+                    <div class="float-element" style="--delay: 1s"></div>
+                    <div class="float-element" style="--delay: 2s"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="store-filters">
+            <div class="filter-container">
+                <button class="filter-btn active shimmer" data-filter="all">
+                    <span>All Prints</span>
+                    <div class="filter-bg"></div>
+                </button>
+                <button class="filter-btn shimmer" data-filter="landscapes">
+                    <span>Landscapes</span>
+                    <div class="filter-bg"></div>
+                </button>
+                <button class="filter-btn shimmer" data-filter="portraits">
+                    <span>Portraits</span>
+                    <div class="filter-bg"></div>
+                </button>
+                <button class="filter-btn shimmer" data-filter="urban">
+                    <span>Urban</span>
+                    <div class="filter-bg"></div>
+                </button>
+                <button class="filter-btn shimmer" data-filter="travel">
+                    <span>Travel</span>
+                    <div class="filter-bg"></div>
+                </button>
+            </div>
+        </div>
+
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card gradient-border" data-category="landscapes">
+                <div class="product-image">
+                    <img src="images/drone/Penang From Above 2nd series (kosherunit)  6.JPG" alt="Golden Hour Landscape">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="1">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge limited">Limited Edition</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Golden Hour Serenity</h3>
+                    <p class="product-category">Landscape Photography</p>
+                    <div class="product-description">
+                        Captured during the magical golden hour, this aerial view showcases the serene beauty of Penang's coastline with warm, ethereal lighting.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $45.00</span>
+                        <span class="price-original">$65.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="1">
+                            <option value="8x10">8×10" - $45</option>
+                            <option value="11x14">11×14" - $65</option>
+                            <option value="16x20">16×20" - $95</option>
+                            <option value="24x36">24×36" - $155</option>
+                        </select>
+                        <select class="material-selector" data-product="1">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="1">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card gradient-border" data-category="landscapes">
+                <div class="product-image">
+                    <img src="images/Indonesia landscapes/bromo edits done 3-2.jpg" alt="Volcanic Dawn">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="2">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge bestseller">Best Seller</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Volcanic Dawn</h3>
+                    <p class="product-category">Travel Photography</p>
+                    <div class="product-description">
+                        Spectacular sunrise over Mount Bromo, capturing the raw power and beauty of Indonesia's most iconic volcanic landscape.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $48.00</span>
+                        <span class="price-original">$68.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="2">
+                            <option value="8x10">8×10" - $48</option>
+                            <option value="11x14">11×14" - $68</option>
+                            <option value="16x20">16×20" - $98</option>
+                            <option value="24x36">24×36" - $158</option>
+                        </select>
+                        <select class="material-selector" data-product="2">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="2">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card gradient-border" data-category="urban">
+                <div class="product-image">
+                    <img src="images/Beijing/beijing soho 1.jpg" alt="Urban Architecture">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="3">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Modern Beijing Architecture</h3>
+                    <p class="product-category">Urban Photography</p>
+                    <div class="product-description">
+                        Futuristic architecture of Beijing's SOHO district showcasing the city's rapid modernization and architectural innovation.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $52.00</span>
+                        <span class="price-original">$72.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="3">
+                            <option value="8x10">8×10" - $52</option>
+                            <option value="11x14">11×14" - $72</option>
+                            <option value="16x20">16×20" - $102</option>
+                            <option value="24x36">24×36" - $162</option>
+                        </select>
+                        <select class="material-selector" data-product="3">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="3">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card gradient-border" data-category="portraits">
+                <div class="product-image">
+                    <img src="images/Lanzhou China/Dun Huang Starburst.jfif" alt="Lanzhou Lanscape">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="4">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge exclusive">Exclusive</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Ethereal Portrait Study</h3>
+                    <p class="product-category">Portrait Photography</p>
+                    <div class="product-description">
+                        Intimate portrait capturing raw emotion and natural beauty through masterful use of light and shadow composition.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $55.00</span>
+                        <span class="price-original">$75.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="4">
+                            <option value="8x10">8×10" - $55</option>
+                            <option value="11x14">11×14" - $75</option>
+                            <option value="16x20">16×20" - $105</option>
+                            <option value="24x36">24×36" - $165</option>
+                        </select>
+                        <select class="material-selector" data-product="4">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="4">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card gradient-border" data-category="travel">
+                <div class="product-image">
+                    <img src="images/Western Australia/AAxperth 2.0_-2.jpg" alt="Australian Outback">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="5">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Australian Outback Spirit</h3>
+                    <p class="product-category">Travel Photography</p>
+                    <div class="product-description">
+                        Vast landscapes of Western Australia showcasing the untamed beauty and endless horizons of the Australian outback.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $50.00</span>
+                        <span class="price-original">$70.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="5">
+                            <option value="8x10">8×10" - $50</option>
+                            <option value="11x14">11×14" - $70</option>
+                            <option value="16x20">16×20" - $100</option>
+                            <option value="24x36">24×36" - $160</option>
+                        </select>
+                        <select class="material-selector" data-product="5">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="5">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card gradient-border" data-category="landscapes">
+                <div class="product-image">
+                    <img src="images/Indonesia landscapes/NUSA PENIDA final IVAN.jpg" alt="Tropical Paradise">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="6">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge trending">Trending</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Nusa Penida Paradise</h3>
+                    <p class="product-category">Landscape Photography</p>
+                    <div class="product-description">
+                        Crystal clear waters and dramatic cliffs of Nusa Penida showcase Indonesia's hidden tropical paradise.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $58.00</span>
+                        <span class="price-original">$78.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="6">
+                            <option value="8x10">8×10" - $58</option>
+                            <option value="11x14">11×14" - $78</option>
+                            <option value="16x20">16×20" - $108</option>
+                            <option value="24x36">24×36" - $168</option>
+                        </select>
+                        <select class="material-selector" data-product="6">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="6">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card gradient-border" data-category="urban">
+                <div class="product-image">
+                    <img src="images/Tianjin China/Tianjin Binhai_-2.jpg" alt="Futuristic City">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="7">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Tianjin Binhai Future</h3>
+                    <p class="product-category">Urban Photography</p>
+                    <div class="product-description">
+                        Architectural marvel of Tianjin Binhai Library, a testament to modern Chinese architectural innovation and design.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $54.00</span>
+                        <span class="price-original">$74.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="7">
+                            <option value="8x10">8×10" - $54</option>
+                            <option value="11x14">11×14" - $74</option>
+                            <option value="16x20">16×20" - $104</option>
+                            <option value="24x36">24×36" - $164</option>
+                        </select>
+                        <select class="material-selector" data-product="7">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="7">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card gradient-border" data-category="portraits">
+                <div class="product-image">
+                    <img src="images/potraits/Avant Garde Portraits 1.jpg" alt="Avant Garde Portrait">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="8">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge artpiece">Art Piece</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Avant Garde Vision</h3>
+                    <p class="product-category">Portrait Photography</p>
+                    <div class="product-description">
+                        Contemporary portrait exploring the boundaries between fashion and fine art with bold creative expression.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $62.00</span>
+                        <span class="price-original">$82.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="8">
+                            <option value="8x10">8×10" - $62</option>
+                            <option value="11x14">11×14" - $82</option>
+                            <option value="16x20">16×20" - $112</option>
+                            <option value="24x36">24×36" - $172</option>
+                        </select>
+                        <select class="material-selector" data-product="8">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="8">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="product-card gradient-border" data-category="travel">
+                <div class="product-image">
+                    <img src="images/Beijing/great wall TAO presets -1.jpg" alt="Great Wall">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="9">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge iconic">Iconic</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Great Wall Majesty</h3>
+                    <p class="product-category">Travel Photography</p>
+                    <div class="product-description">
+                        Ancient wonder of the world captured in dramatic lighting, showcasing the Great Wall's timeless grandeur.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $60.00</span>
+                        <span class="price-original">$80.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="9">
+                            <option value="8x10">8×10" - $60</option>
+                            <option value="11x14">11×14" - $80</option>
+                            <option value="16x20">16×20" - $110</option>
+                            <option value="24x36">24×36" - $170</option>
+                        </select>
+                        <select class="material-selector" data-product="9">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="9">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="product-card gradient-border" data-category="landscapes">
+                <div class="product-image">
+                    <img src="images/drone/KLFROMABOVE 5.JPG" alt="Kuala Lumpur Aerial">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="10">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>KL From Above</h3>
+                    <p class="product-category">Landscape Photography</p>
+                    <div class="product-description">
+                        Aerial perspective of Kuala Lumpur's urban sprawl meeting natural landscapes in perfect harmony.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $46.00</span>
+                        <span class="price-original">$66.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="10">
+                            <option value="8x10">8×10" - $46</option>
+                            <option value="11x14">11×14" - $66</option>
+                            <option value="16x20">16×20" - $96</option>
+                            <option value="24x36">24×36" - $156</option>
+                        </select>
+                        <select class="material-selector" data-product="10">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="10">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 11 -->
+            <div class="product-card gradient-border" data-category="urban">
+                <div class="product-image">
+                    <img src="images/Beijing/beijing windows view 1_.jpg" alt="Beijing Cityscape">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="11">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Beijing Window View</h3>
+                    <p class="product-category">Urban Photography</p>
+                    <div class="product-description">
+                        Urban landscape framed through architectural elements, capturing Beijing's dynamic cityscape evolution.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $49.00</span>
+                        <span class="price-original">$69.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="11">
+                            <option value="8x10">8×10" - $49</option>
+                            <option value="11x14">11×14" - $69</option>
+                            <option value="16x20">16×20" - $99</option>
+                            <option value="24x36">24×36" - $159</option>
+                        </select>
+                        <select class="material-selector" data-product="11">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="11">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 12 -->
+            <div class="product-card gradient-border" data-category="portraits">
+                <div class="product-image">
+                    <img src="images/potraits/LaTacheBobo Jewelry Kosherunit 5 IGCROP.jpg" alt="Fashion Portrait">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="12">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge fashion">Fashion</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Fashion Forward</h3>
+                    <p class="product-category">Portrait Photography</p>
+                    <div class="product-description">
+                        High-fashion portrait showcasing jewelry artistry with sophisticated lighting and composition techniques.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $57.00</span>
+                        <span class="price-original">$77.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="12">
+                            <option value="8x10">8×10" - $57</option>
+                            <option value="11x14">11×14" - $77</option>
+                            <option value="16x20">16×20" - $107</option>
+                            <option value="24x36">24×36" - $167</option>
+                        </select>
+                        <select class="material-selector" data-product="12">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="12">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 13 -->
+            <div class="product-card gradient-border" data-category="travel">
+                <div class="product-image">
+                    <img src="images/Western Australia/AAxWA 2.0-19.jpg" alt="Western Australia Coast">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="13">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Coastal Wilderness</h3>
+                    <p class="product-category">Travel Photography</p>
+                    <div class="product-description">
+                        Pristine coastline of Western Australia showcasing untouched natural beauty and dramatic rock formations.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $53.00</span>
+                        <span class="price-original">$73.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="13">
+                            <option value="8x10">8×10" - $53</option>
+                            <option value="11x14">11×14" - $73</option>
+                            <option value="16x20">16×20" - $103</option>
+                            <option value="24x36">24×36" - $163</option>
+                        </select>
+                        <select class="material-selector" data-product="13">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="13">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 14 -->
+            <div class="product-card gradient-border" data-category="landscapes">
+                <div class="product-image">
+                    <img src="images/Indonesia landscapes/waterfall boys (1 of 1).jpg" alt="Tropical Waterfall">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="14">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge adventure">Adventure</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Hidden Falls Adventure</h3>
+                    <p class="product-category">Landscape Photography</p>
+                    <div class="product-description">
+                        Adventurous spirit captured at a hidden waterfall in Indonesia, celebrating exploration and natural wonder.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $51.00</span>
+                        <span class="price-original">$71.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="14">
+                            <option value="8x10">8×10" - $51</option>
+                            <option value="11x14">11×14" - $71</option>
+                            <option value="16x20">16×20" - $101</option>
+                            <option value="24x36">24×36" - $161</option>
+                        </select>
+                        <select class="material-selector" data-product="14">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="14">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 15 -->
+            <div class="product-card gradient-border" data-category="urban">
+                <div class="product-image">
+                    <img src="images/Tianjin China/tianjin teal and orange kosherunit 1.jpg" alt="Tianjin Modern">
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product="15">
+                            <i class="fas fa-eye"></i>
+                            Quick View
+                        </button>
+                        <div class="product-badges">
+                            <span class="badge signature">Signature</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>Tianjin Color Theory</h3>
+                    <p class="product-category">Urban Photography</p>
+                    <div class="product-description">
+                        Modern Chinese architecture enhanced with signature color grading showcasing artistic vision and technical mastery.
+                    </div>
+                    <div class="price-display">
+                        <span class="price-from">From $59.00</span>
+                        <span class="price-original">$79.00</span>
+                    </div>
+                    <div class="product-options">
+                        <select class="size-selector" data-product="15">
+                            <option value="8x10">8×10" - $59</option>
+                            <option value="11x14">11×14" - $79</option>
+                            <option value="16x20">16×20" - $109</option>
+                            <option value="24x36">24×36" - $169</option>
+                        </select>
+                        <select class="material-selector" data-product="15">
+                            <option value="paper">Premium Paper</option>
+                            <option value="canvas">Canvas (+$20)</option>
+                            <option value="metal">Metal (+$35)</option>
+                            <option value="acrylic">Acrylic (+$45)</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn premium-btn" data-product="15">
+                        <span>Add to Cart</span>
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="btn-bg"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" id="closeCart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-content">
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total: $<span id="cartTotal">0.00</span></span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" disabled>
+                <span>Proceed to Checkout</span>
+                <i class="fas fa-credit-card"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2>Terms and Conditions</h2>
+                <p>Please read our terms and conditions before purchasing</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary">Contact Support</a>
+                    <a href="#" class="btn btn-secondary">Shipping Info</a>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <form id="contactForm" class="contact-form">
+                    <h3>Get in touch</h3>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="projectType" name="projectType">
+                            <option value="" disabled selected>Inquiry Type</option>
+                            <option value="print-quality">Print Quality</option>
+                            <option value="custom-order">Custom Order</option>
+                            <option value="bulk-discount">Bulk Discount</option>
+                            <option value="shipping">Shipping</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder="Your message" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-form">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="index.html">KOSHERUNIT</a>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/kosherunit/?hl=en" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a>
+                <a href="https://www.linkedin.com/in/ivan-lee-558745199/in-in" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 IVAN LEE CK. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 
