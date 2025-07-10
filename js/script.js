@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // For demo purposes, log the action
             if (this.type !== 'submit') {
-                console.log(`Button clicked: ${this.textContent}`);
+                // console.log(`Button clicked: ${this.textContent}`);
             }
         });
     });
@@ -378,11 +378,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (source && source.dataset.src) {
                         source.src = source.dataset.src;
                         video.load();
-                        video.play().catch(e => console.log('Autoplay prevented:', e));
+                        video.play().catch(e => {/* console.log('Autoplay prevented:', e); */});
                         observer.unobserve(video);
                     } else if (video.paused) {
                         // If the video is already loaded but paused, play it
-                        video.play().catch(e => console.log('Autoplay prevented:', e));
+                        video.play().catch(e => {/* console.log('Autoplay prevented:', e); */});
                     }
                 } else if (!entry.isIntersecting && !entry.target.paused) {
                     // Pause the video when it's out of view to save resources
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Replace video with image
                     mediaContainer.replaceChild(newImg, this);
                     
-                    console.log('Video replaced with fallback image');
+                    // console.log('Video replaced with fallback image');
                 }
             }
         }, true); // Use capture to catch the event in the capture phase
@@ -1255,7 +1255,7 @@ function initPhotographyMasonry() {
         // Add click handler for lightbox or detail view
         item.addEventListener('click', () => {
             // Placeholder for future lightbox functionality
-            console.log(`Clicked on: ${data.title}`);
+            // console.log(`Clicked on: ${data.title}`);
         });
 
         // Add keyboard accessibility
@@ -1741,7 +1741,7 @@ function initPremiumVideoControls() {
         video.addEventListener('ended', () => {
             video.currentTime = 0;
             video.play().catch(() => {
-                console.log('Auto-replay prevented');
+                // console.log('Auto-replay prevented');
             });
         });
         
@@ -1754,7 +1754,7 @@ function initPremiumVideoControls() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     video.play().catch(() => {
-                        console.log('Auto-play prevented');
+                        // console.log('Auto-play prevented');
                     });
                 } else {
                     video.pause();
@@ -2108,7 +2108,7 @@ function initSocialMediaGrid() {
     function playVideo(video) {
         if (video.paused) {
             video.play().catch(e => {
-                console.log('Video autoplay was prevented:', e);
+                // console.log('Video autoplay was prevented:', e);
             });
         }
     }
