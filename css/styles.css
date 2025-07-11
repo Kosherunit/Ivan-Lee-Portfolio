@@ -361,11 +361,19 @@ a {
 }
 
 .menu-content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
+    overflow-y: auto;
+    max-height: 80vh;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--bg-secondary);
+}
+.menu-content::-webkit-scrollbar {
+    width: 8px;
+    background: var(--bg-secondary);
+}
+.menu-content::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 8px;
 }
 
 .menu-items {

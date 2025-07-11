@@ -314,37 +314,25 @@ document.addEventListener('DOMContentLoaded', () => {
             this.style.transform = 'translateY(-3px)';
             this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
         });
-        
         button.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = 'none';
         });
-        
         button.addEventListener('click', function(e) {
-            if (this.type !== 'submit') { // Skip for form submit buttons
+            if ((this.tagName === 'BUTTON' && this.type !== 'submit')) {
                 e.preventDefault();
             }
-            
-            // Add ripple effect
             const ripple = document.createElement('span');
             ripple.classList.add('ripple');
             this.appendChild(ripple);
-            
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
-            
             ripple.style.width = ripple.style.height = `${size}px`;
             ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
             ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
-            
             setTimeout(() => {
                 ripple.remove();
             }, 600);
-            
-            // For demo purposes, log the action
-            if (this.type !== 'submit') {
-                // console.log(`Button clicked: ${this.textContent}`);
-            }
         });
     });
     
@@ -1133,188 +1121,26 @@ function initMouseTrailEffect() {
 // Photography Page Masonry Grid with Bottomless Scrolling
 function initPhotographyMasonry() {
     const container = document.querySelector('.project-grid');
-    const loadingIndicator = document.querySelector('.loading-indicator');
-    
-    if (!container || !loadingIndicator) return;
+    if (!container) return;
 
-    let isLoading = false;
-    let currentPage = 1;
-    const itemsPerPage = 12;
-    const maxItems = 120; // Prevent infinite loading
-    
-    // Enhanced gallery data with portrait/landscape classifications
-    const galleryData = [
-        { src: "images/Beijing/summer palace dragon.jpg", title: "Dragon Guardian", category: "Architectural Photography", description: "Ancient dragon sculpture at the Summer Palace.", location: "Beijing, China", year: "2022", type: "standard" },
-        { src: "images/Indonesia landscapes/volcano sunrise 2.jpg", title: "Volcanic Dawn", category: "Landscape Photography", description: "Spectacular sunrise over active volcano.", location: "Java, Indonesia", year: "2023", type: "landscape" },
-        { src: "images/Western Australia/shark bay aerial.jpg", title: "Shark Bay Vista", category: "Aerial Photography", description: "Crystal clear waters reveal marine life below.", location: "Western Australia", year: "2023", type: "standard" },
-        { src: "images/Beijing/hutong morning light.jpg", title: "Morning in Hutong", category: "Street Photography", description: "Golden light filters through traditional alleys.", location: "Beijing, China", year: "2022", type: "portrait" },
-        { src: "images/Indonesia landscapes/bali rice terraces 3.jpg", title: "Emerald Terraces", category: "Agricultural Photography", description: "Intricate patterns of traditional farming.", location: "Bali, Indonesia", year: "2023", type: "landscape" },
-        { src: "images/Western Australia/wave rock formation.jpg", title: "Wave Rock Wonder", category: "Geological Photography", description: "Natural rock formation shaped by time.", location: "Western Australia", year: "2023", type: "standard" },
-        { src: "images/Beijing/modern night skyline.jpg", title: "Future Skyline", category: "Urban Photography", description: "Beijing's modern architecture illuminated at night.", location: "Beijing, China", year: "2022", type: "landscape" },
-        { src: "images/Indonesia landscapes/traditional fisherman 2.jpg", title: "Ocean Harvest", category: "Cultural Photography", description: "Traditional fishing methods preserved through generations.", location: "Java, Indonesia", year: "2023", type: "portrait" },
-        { src: "images/Western Australia/desert bloom wildflowers.jpg", title: "Desert Bloom", category: "Nature Photography", description: "Rare wildflower bloom transforms the desert.", location: "Western Australia", year: "2023", type: "standard" },
-        { src: "images/Beijing/temple ceremony 2.jpg", title: "Sacred Ceremony", category: "Cultural Photography", description: "Traditional rituals continue in modern times.", location: "Beijing, China", year: "2022", type: "standard" },
-        { src: "images/Indonesia landscapes/bali traditional dance 2.jpg", title: "Cultural Dance", category: "Performance Photography", description: "Traditional Balinese dance performance.", location: "Ubud, Indonesia", year: "2023", type: "portrait" },
-        { src: "images/Western Australia/cable beach camel.jpg", title: "Camel Sunset", category: "Travel Photography", description: "Iconic camel rides at Cable Beach.", location: "Broome, Australia", year: "2023", type: "landscape" }
-    ];
-
-    // Intersection Observer for reveal animations
+    // Reveal animation for existing items only
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '50px 0px'
     };
-
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
                 setTimeout(() => {
                     entry.target.classList.add('reveal');
-                }, index * 100); // Stagger reveals
+                }, index * 100);
                 revealObserver.unobserve(entry.target);
             }
         });
     }, observerOptions);
-
-    // Intersection Observer for infinite scroll
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !isLoading && container.children.length < maxItems) {
-                loadMoreItems();
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '200px'
-    });
-
-    // Start observing the loading indicator
-    scrollObserver.observe(loadingIndicator);
-
-    // Load more items function
-    function loadMoreItems() {
-        if (isLoading || container.children.length >= maxItems) return;
-        
-        isLoading = true;
-        loadingIndicator.classList.add('show');
-
-        // Simulate network delay for realistic loading
-        setTimeout(() => {
-            const fragment = document.createDocumentFragment();
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            
-            for (let i = 0; i < itemsPerPage && (startIndex + i) < galleryData.length; i++) {
-                const item = galleryData[(startIndex + i) % galleryData.length];
-                const masonryItem = createMasonryItem(item, startIndex + i + container.children.length);
-                fragment.appendChild(masonryItem);
-            }
-
-            // Add items to container
-            container.appendChild(fragment);
-
-            // Set up reveal animations for new items
-            const newItems = container.querySelectorAll('.masonry-item:not(.reveal)');
-            newItems.forEach(item => {
-                revealObserver.observe(item);
-            });
-
-            currentPage++;
-            isLoading = false;
-            loadingIndicator.classList.remove('show');
-
-            // Check if we've reached max items
-            if (container.children.length >= maxItems) {
-                loadingIndicator.style.display = 'none';
-                scrollObserver.disconnect();
-            }
-        }, 800 + Math.random() * 400); // Random delay for realism
-    }
-
-    // Create masonry item element
-    function createMasonryItem(data, index) {
-        const item = document.createElement('div');
-        const typeClass = data.type || 'standard';
-        item.className = `masonry-item ${typeClass}`;
-        
-        const mediaClass = `masonry-media ${typeClass}`;
-        item.innerHTML = `
-            <div class="${mediaClass}">
-                <img src="${data.src}" alt="${data.title}" loading="lazy">
-            </div>
-            <div class="masonry-overlay">
-                <h3>${data.title}</h3>
-                <p class="masonry-category">${data.category}</p>
-                <p class="masonry-description">${data.description}</p>
-                <div class="masonry-meta">
-                    <span>Ivan Lee</span>
-                    <span>${data.location}</span>
-                    <span>${data.year}</span>
-                </div>
-            </div>
-        `;
-
-        // Add click handler for lightbox or detail view
-        item.addEventListener('click', () => {
-            // Placeholder for future lightbox functionality
-            // console.log(`Clicked on: ${data.title}`);
-        });
-
-        // Add keyboard accessibility
-        item.setAttribute('tabindex', '0');
-        item.setAttribute('role', 'button');
-        item.setAttribute('aria-label', `View ${data.title} - ${data.category}`);
-        
-        item.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                item.click();
-            }
-        });
-
-        return item;
-    }
-
-    // Reveal existing items on page load
     const existingItems = container.querySelectorAll('.masonry-item');
     existingItems.forEach(item => {
         revealObserver.observe(item);
-    });
-
-    // Parallax effect on scroll (optional enhancement)
-    let ticking = false;
-    function updateParallax() {
-        const scrolled = window.pageYOffset;
-        const parallaxItems = container.querySelectorAll('.masonry-item');
-        
-        parallaxItems.forEach((item, index) => {
-            const speed = 0.5 + (index % 3) * 0.1; // Varying speeds
-            const yPos = -(scrolled * speed);
-            item.style.transform = `translateY(${yPos}px)`;
-        });
-        
-        ticking = false;
-    }
-
-    // Throttled scroll handler
-    function handleScroll() {
-        if (!ticking) {
-            requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }
-
-    // Enable parallax on larger screens only
-    if (window.innerWidth > 768) {
-        window.addEventListener('scroll', handleScroll, { passive: true });
-    }
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        // Recalculate layout if needed
-        if (window.innerWidth <= 768) {
-            window.removeEventListener('scroll', handleScroll);
-        } else if (window.innerWidth > 768) {
-            window.addEventListener('scroll', handleScroll, { passive: true });
-        }
     });
 }
 
@@ -1848,121 +1674,14 @@ function initVideoProgressAnimation() {
 // Initialize Social Media Masonry Grid with Bottomless Scrolling
 function initSocialMediaGrid() {
     const container = document.querySelector('.social-media-masonry');
-    const loadingIndicator = document.querySelector('.social-media-masonry .loading-indicator');
-    
-    if (!container || !loadingIndicator) return;
-    
-    let isLoading = false;
-    let currentPage = 1;
-    let maxItems = 100; // Safety limit
-    const itemsPerPage = 5;
-    
-    // Video data for dynamic loading
-    const socialMediaData = [
-        {
-            type: 'video',
-            source: 'video/GUCCI 2023 REELS.mp4',
-            title: 'Fashion Lookbook',
-            category: 'Instagram Reels',
-            description: 'High fashion lookbook highlighting seasonal trends',
-            meta: ['2023', 'Fashion']
-        },
-        {
-            type: 'video',
-            source: 'video/NIRO WEDDING DAY FINALS.mp4',
-            title: 'Wedding Moments',
-            category: 'TikTok',
-            description: 'Cinematic wedding highlights optimized for social',
-            meta: ['2023', 'Wedding']
-        },
-        {
-            type: 'video',
-            source: 'video/DJI MAVIC PRO FULL RES.mp4',
-            title: 'Aerial Showcase',
-            category: 'YouTube Shorts',
-            description: 'Breathtaking drone footage captured for social feeds',
-            meta: ['2023', 'Aerial']
-        },
-        {
-            type: 'video',
-            source: 'video/WARM WATERS  FINALS.mp4',
-            title: 'Ocean Escape',
-            category: 'Instagram',
-            description: 'Tropical travel content for destination marketing',
-            meta: ['2023', 'Travel']
-        },
-        {
-            type: 'video',
-            source: 'video/RASA SAYANG SOCIAL MEDIA 1 MIN FINALS.mp4',
-            title: 'Resort Paradise',
-            category: 'Instagram',
-            description: 'Luxury resort promotional content',
-            meta: ['2023', 'Hospitality']
-        },
-        {
-            type: 'image',
-            source: 'images/Laureenimg/LAUREEN TEST WIDE 1.jpg',
-            title: 'Fashion Editorial',
-            category: 'Influencer Content',
-            description: 'Styled fashion shoot for social campaigns',
-            meta: ['2023', 'Fashion']
-        },
-        {
-            type: 'image',
-            source: 'images/Laureenimg/LAUREEN TEST WIDE 3.jpg',
-            title: 'Lifestyle Series',
-            category: 'Instagram',
-            description: 'Lifestyle content for brand partnerships',
-            meta: ['2023', 'Lifestyle']
-        },
-        {
-            type: 'image',
-            source: 'images/potraits/LaTacheBobo Jewelry Kosherunit 7 IGCROP.jpg',
-            title: 'Jewelry Showcase',
-            category: 'Product Content',
-            description: 'Luxury product showcases for e-commerce',
-            meta: ['2023', 'Product']
-        },
-        {
-            type: 'video',
-            source: 'video/Ribena AD 2020.mp4',
-            title: 'Beverage Campaign',
-            category: 'TikTok',
-            description: 'Vibrant beverage advertising for younger audiences',
-            meta: ['2022', 'F&B']
-        },
-        {
-            type: 'image',
-            source: 'images/potraits/PortraitProject1-8.jpg',
-            title: 'Creative Portraits',
-            category: 'Instagram',
-            description: 'Artistic portrait series for personal brand',
-            meta: ['2023', 'Portrait']
-        }
-    ];
-    
-    // Intersection Observer for endless scrolling
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !isLoading && container.children.length < maxItems) {
-                loadMoreItems();
-            }
-        });
-    }, {
-        rootMargin: '200px 0px',
-        threshold: 0.1
-    });
-    
-    // Start observing the loading indicator
-    scrollObserver.observe(loadingIndicator);
-    
-    // Intersection Observer for revealing items as they appear
+    if (!container) return;
+    // Reveal animation for existing items only
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 setTimeout(() => {
                     entry.target.classList.add('reveal');
-                }, Math.random() * 300); // Staggered reveal
+                }, Math.random() * 300);
                 revealObserver.unobserve(entry.target);
             }
         });
@@ -1970,372 +1689,23 @@ function initSocialMediaGrid() {
         rootMargin: '50px 0px',
         threshold: 0.1
     });
-    
-    // Load more items
-    function loadMoreItems() {
-        if (isLoading || container.children.length >= maxItems) return;
-        
-        isLoading = true;
-        loadingIndicator.classList.add('show');
-        
-        setTimeout(() => {
-            const fragment = document.createDocumentFragment();
-            
-            // Get data for this page, cycling through available items
-            for (let i = 0; i < itemsPerPage; i++) {
-                const dataIndex = (currentPage * itemsPerPage + i) % socialMediaData.length;
-                const itemData = socialMediaData[dataIndex];
-                
-                const item = createMediaItem(itemData);
-                fragment.appendChild(item);
-                
-                // Observe for reveal animation
-                revealObserver.observe(item);
-            }
-            
-            // Insert new items before the loading indicator
-            container.insertBefore(fragment, loadingIndicator);
-            
-            // Update counters and state
-            currentPage++;
-            isLoading = false;
-            loadingIndicator.classList.remove('show');
-            
-            // Initialize interactions for new items
-            setupVideoInteractions();
-            
-            // If we've reached the maximum, stop observing
-            if (container.children.length >= maxItems) {
-                scrollObserver.unobserve(loadingIndicator);
-                loadingIndicator.style.display = 'none';
-            }
-        }, 800 + Math.random() * 300); // Simulate network delay
-    }
-    
-    // Create a new social media item from data
-    function createMediaItem(data) {
-        const item = document.createElement('div');
-        item.className = 'social-media-item';
-        
-        // Create media element (video or image)
-        let mediaElement;
-        if (data.type === 'video') {
-            mediaElement = document.createElement('video');
-            mediaElement.loop = true;
-            mediaElement.muted = true;
-            mediaElement.playsInline = true;
-            
-            const sourceElement = document.createElement('source');
-            sourceElement.src = data.source;
-            sourceElement.type = 'video/mp4';
-            
-            mediaElement.appendChild(sourceElement);
-            
-            // Add a play indicator
-            const playIndicator = document.createElement('div');
-            playIndicator.className = 'play-indicator';
-            item.appendChild(playIndicator);
-        } else {
-            mediaElement = document.createElement('img');
-            mediaElement.src = data.source;
-            mediaElement.alt = data.title;
-            mediaElement.loading = 'lazy';
-        }
-        
-        item.appendChild(mediaElement);
-        
-        // Create overlay info
-        const overlay = document.createElement('div');
-        overlay.className = 'social-overlay';
-        
-        overlay.innerHTML = `
-            <h3>${data.title}</h3>
-            <p class="social-category">${data.category}</p>
-            <p class="social-description">${data.description}</p>
-            <div class="social-meta">
-                ${data.meta.map(tag => `<span>${tag}</span>`).join('')}
-            </div>
-        `;
-        
-        item.appendChild(overlay);
-        
-        return item;
-    }
-    
-    // Handle video play/pause on visibility
-    function setupVideoInteractions() {
-        const videoItems = document.querySelectorAll('.social-media-item video');
-        
-        const videoObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const video = entry.target;
-                
-                if (entry.isIntersecting) {
-                    // Only play if the video is in the viewport for a significant amount of time
-                    setTimeout(() => {
-                        if (isElementInViewport(video)) {
-                            playVideo(video);
-                        }
-                    }, 300);
-                } else {
-                    pauseVideo(video);
-                }
-            });
-        }, {
-            threshold: 0.7, // Video must be 70% visible
-            rootMargin: '0px'
-        });
-        
-        videoItems.forEach(video => {
-            // Add event listeners
-            video.addEventListener('loadedmetadata', () => {
-                video.muted = true; // Ensure muted for autoplay
-            });
-            
-            // Add error handling
-            video.addEventListener('error', () => {
-                const parent = video.closest('.social-media-item');
-                if (parent) {
-                    parent.style.background = 'var(--bg-secondary)';
-                }
-            });
-            
-            // Observe video visibility
-            videoObserver.observe(video);
-        });
-    }
-    
-    function playVideo(video) {
-        if (video.paused) {
-            video.play().catch(e => {
-                // console.log('Video autoplay was prevented:', e);
-            });
-        }
-    }
-    
-    function pauseVideo(video) {
-        if (!video.paused) {
-            video.pause();
-        }
-    }
-    
-    function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-    
-    // Handle touch interactions for mobile
-    function initTouchInteractions() {
-        const gridItems = document.querySelectorAll('.social-media-item');
-        
-        gridItems.forEach(item => {
-            item.addEventListener('touchstart', () => {
-                // Add active class on touch
-                item.classList.add('touch-active');
-            });
-            
-            item.addEventListener('touchend', () => {
-                // Remove active class after touch
-                setTimeout(() => {
-                    item.classList.remove('touch-active');
-                }, 300);
-            });
-        });
-    }
-    
-    // Initialize touch interactions
-    initTouchInteractions();
-    
-    // Add keyboard accessibility
-    function initAccessibility() {
-        const gridItems = document.querySelectorAll('.social-media-item');
-        
-        gridItems.forEach(item => {
-            // Make items focusable
-            item.setAttribute('tabindex', '0');
-            
-            // Handle keyboard interaction
-            item.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    // Trigger the same behavior as a click/hover
-                    const video = item.querySelector('video');
-                    if (video) {
-                        if (video.paused) {
-                            playVideo(video);
-                        } else {
-                            pauseVideo(video);
-                        }
-                    }
-                }
-            });
-        });
-    }
-    
-    // Initialize accessibility features
-    initAccessibility();
-    
-    // Setup initial video interactions
-    setupVideoInteractions();
-    
-    // Observe existing items for reveal animation
-    document.querySelectorAll('.social-media-item').forEach(item => {
+    const existingItems = container.querySelectorAll('.social-media-item');
+    existingItems.forEach(item => {
         revealObserver.observe(item);
     });
-    
-    // Handle resize events
-    window.addEventListener('resize', () => {
-        // Recalculate layout if needed
-    });
-    
-    // Make header compact on scroll
-    function initCompactHeader() {
-        const header = document.querySelector('.detail-header');
-        if (!header) return;
-        
-        const scrollThreshold = 50;
-        
-        function handleScroll() {
-            if (window.scrollY > scrollThreshold) {
-                header.classList.add('compact');
-            } else {
-                header.classList.remove('compact');
-            }
-        }
-        
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        
-        // Initial check
-        handleScroll();
-    }
-    
-    // Initialize compact header
-    initCompactHeader();
 }
 
 // Initialize Collaborations Masonry Grid with Bottomless Scrolling
 function initCollaborationsGrid() {
     const container = document.querySelector('.collaborations-masonry');
-    const loadingIndicator = document.querySelector('.collaborations-masonry .loading-indicator');
-    
-    if (!container || !loadingIndicator) return;
-    
-    let isLoading = false;
-    let currentPage = 1;
-    let maxItems = 100; // Safety limit
-    const itemsPerPage = 6;
-    
-    // Collaboration data for dynamic loading
-    const collaborationsData = [
-        {
-            type: 'video',
-            source: 'video/GUCCI 2023 REELS.mp4',
-            title: 'Fashion Brand Collaboration',
-            category: 'Luxury Partnership',
-            description: 'Collaborative content for premium fashion brands',
-            meta: ['2023', 'Fashion']
-        },
-        {
-            type: 'image',
-            source: 'images/Indonesia landscapes/DSC00020.JPG',
-            title: 'Travel Influencer Network',
-            category: 'Destination Marketing',
-            description: 'Partnerships with travel content creators',
-            meta: ['2023', 'Travel']
-        },
-        {
-            type: 'video',
-            source: 'video/Western Australia HD FULL PREMIER VIDEO (KOSHERUNIT).mp4',
-            title: 'Tourism Board Project',
-            category: 'Government Partnership',
-            description: 'Official tourism promotion with local influencers',
-            meta: ['2023', 'Tourism']
-        },
-        {
-            type: 'image',
-            source: 'images/Beijing/DSC00130.JPG',
-            title: 'Urban Explorer Series',
-            category: 'City Collaboration',
-            description: 'Showcasing metropolitan areas with city specialists',
-            meta: ['2023', 'Urban']
-        },
-        {
-            type: 'image',
-            source: 'images/potraits/PortraitProject1-3.jpg',
-            title: 'Portrait Artist Collective',
-            category: 'Creative Collaboration',
-            description: 'Artistic portrait series with visual storytellers',
-            meta: ['2023', 'Art']
-        },
-        {
-            type: 'video',
-            source: 'video/RASA SAYANG SOCIAL MEDIA 1 MIN FINALS.mp4',
-            title: 'Resort Marketing Campaign',
-            category: 'Hospitality Partnership',
-            description: 'Luxury resort promotion with travel influencers',
-            meta: ['2023', 'Hospitality']
-        },
-        {
-            type: 'image',
-            source: 'images/Laureenimg/LAUREEN 2.jpg',
-            title: 'Fashion Editorial Series',
-            category: 'Style Collaboration',
-            description: 'Creative direction with fashion content creators',
-            meta: ['2023', 'Fashion']
-        },
-        {
-            type: 'image',
-            source: 'images/potraits/LaTacheBobo Jewelry Kosherunit 7 IGCROP.jpg',
-            title: 'Jewelry Brand Ambassadors',
-            category: 'Product Partnership',
-            description: 'Luxury product showcases with specialist influencers',
-            meta: ['2023', 'Luxury']
-        },
-        {
-            type: 'video',
-            source: 'video/Ribena AD 2020.mp4',
-            title: 'Beverage Campaign',
-            category: 'F&B Partnership',
-            description: 'Food & beverage promotion with lifestyle creators',
-            meta: ['2022', 'F&B']
-        },
-        {
-            type: 'image',
-            source: 'images/potraits/PortraitProject1-7.jpg',
-            title: 'Creative Portraiture',
-            category: 'Artistic Collaboration',
-            description: 'Artistic portrait series with visual creators',
-            meta: ['2023', 'Art']
-        }
-    ];
-    
-    // Intersection Observer for endless scrolling
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !isLoading && container.children.length < maxItems) {
-                loadMoreItems();
-            }
-        });
-    }, {
-        rootMargin: '200px 0px',
-        threshold: 0.1
-    });
-    
-    // Start observing the loading indicator
-    scrollObserver.observe(loadingIndicator);
-    
-    // Intersection Observer for revealing items as they appear
+    if (!container) return;
+    // Reveal animation for existing items only
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 setTimeout(() => {
                     entry.target.classList.add('reveal');
-                }, Math.random() * 300); // Staggered reveal
+                }, Math.random() * 300);
                 revealObserver.unobserve(entry.target);
             }
         });
@@ -2343,203 +1713,8 @@ function initCollaborationsGrid() {
         rootMargin: '50px 0px',
         threshold: 0.1
     });
-    
-    // Load more items
-    function loadMoreItems() {
-        if (isLoading || container.children.length >= maxItems) return;
-        
-        isLoading = true;
-        loadingIndicator.classList.add('show');
-        
-        setTimeout(() => {
-            const fragment = document.createDocumentFragment();
-            
-            // Get data for this page, cycling through available items
-            for (let i = 0; i < itemsPerPage; i++) {
-                const dataIndex = (currentPage * itemsPerPage + i) % collaborationsData.length;
-                const itemData = collaborationsData[dataIndex];
-                
-                const item = createCollabItem(itemData);
-                fragment.appendChild(item);
-                
-                // Observe for reveal animation
-                revealObserver.observe(item);
-            }
-            
-            // Insert new items before the loading indicator
-            container.insertBefore(fragment, loadingIndicator);
-            
-            // Update counters and state
-            currentPage++;
-            isLoading = false;
-            loadingIndicator.classList.remove('show');
-            
-            // Initialize interactions for new items
-            setupImageOptimization();
-            
-            // If we've reached the maximum, stop observing
-            if (container.children.length >= maxItems) {
-                scrollObserver.unobserve(loadingIndicator);
-                loadingIndicator.style.display = 'none';
-            }
-        }, 800 + Math.random() * 300); // Simulate network delay
-    }
-    
-    // Create a new collaboration item from data
-    function createCollabItem(data) {
-        const item = document.createElement('div');
-        item.className = 'collab-item';
-        
-        // Create media element (image only)
-        const mediaContainer = document.createElement('div');
-        mediaContainer.className = 'collab-media';
-        
-        const mediaElement = document.createElement('img');
-        mediaElement.src = data.source;
-        mediaElement.alt = data.title;
-        mediaElement.loading = 'lazy';
-        
-        mediaContainer.appendChild(mediaElement);
-        item.appendChild(mediaContainer);
-        
-        // Create overlay info
-        const overlay = document.createElement('div');
-        overlay.className = 'collab-overlay';
-        
-        overlay.innerHTML = `
-            <h3>${data.title}</h3>
-            <p class="collab-category">${data.category}</p>
-            <p class="collab-description">${data.description}</p>
-            <div class="collab-meta">
-                ${data.meta.map(tag => `<span>${tag}</span>`).join('')}
-            </div>
-        `;
-        
-        item.appendChild(overlay);
-        
-        return item;
-    }
-    
-    // Image loading optimization
-    function setupImageOptimization() {
-        const imageItems = document.querySelectorAll('.collab-item img');
-        
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const img = entry.target;
-                
-                if (entry.isIntersecting) {
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                    }
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '200px'
-        });
-        
-        imageItems.forEach(img => {
-            // Add error handling
-            img.addEventListener('error', () => {
-                const parent = img.closest('.collab-item');
-                if (parent) {
-                    parent.style.background = 'var(--bg-secondary)';
-                }
-            });
-            
-            // Observe image visibility
-            imageObserver.observe(img);
-        });
-    }
-    
-    function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-    
-    // Handle touch interactions for mobile
-    function initTouchInteractions() {
-        const gridItems = document.querySelectorAll('.collab-item');
-        
-        gridItems.forEach(item => {
-            item.addEventListener('touchstart', () => {
-                // Add active class on touch
-                item.classList.add('touch-active');
-            });
-            
-            item.addEventListener('touchend', () => {
-                // Remove active class after touch
-                setTimeout(() => {
-                    item.classList.remove('touch-active');
-                }, 300);
-            });
-        });
-    }
-    
-    // Initialize touch interactions
-    initTouchInteractions();
-    
-    // Add keyboard accessibility
-    function initAccessibility() {
-        const gridItems = document.querySelectorAll('.collab-item');
-        
-        gridItems.forEach(item => {
-            // Make items focusable
-            item.setAttribute('tabindex', '0');
-            
-            // Handle keyboard interaction
-            item.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    // Trigger overlay display
-                    item.classList.add('keyboard-focus');
-                    setTimeout(() => {
-                        item.classList.remove('keyboard-focus');
-                    }, 1000);
-                }
-            });
-        });
-    }
-    
-    // Initialize accessibility features
-    initAccessibility();
-    
-    // Setup initial image optimizations
-    setupImageOptimization();
-    
-    // Observe existing items for reveal animation
-    document.querySelectorAll('.collab-item').forEach(item => {
+    const existingItems = container.querySelectorAll('.collab-item');
+    existingItems.forEach(item => {
         revealObserver.observe(item);
     });
-    
-    // Make header compact on scroll
-    function initCompactHeader() {
-        const header = document.querySelector('.detail-header');
-        if (!header) return;
-        
-        const scrollThreshold = 50;
-        
-        function handleScroll() {
-            if (window.scrollY > scrollThreshold) {
-                header.classList.add('compact');
-            } else {
-                header.classList.remove('compact');
-            }
-        }
-        
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        
-        // Initial check
-        handleScroll();
-    }
-    
-    // Initialize compact header
-    initCompactHeader();
 } 
